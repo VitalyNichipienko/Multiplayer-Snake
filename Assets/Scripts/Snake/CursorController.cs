@@ -4,14 +4,16 @@ namespace Snake
 {
     public class CursorController : MonoBehaviour
     {
-        [SerializeField] private SnakeController snakeController;
         [SerializeField] private Transform cursor;
-    
+
+        private SnakeController _snakeController;
         private Camera _mainCamera;
         private Plane _plane;
 
-        private void Awake()
+        public void Init(SnakeController snakeController)
         {
+            _snakeController = snakeController;
+            
             _mainCamera = Camera.main;
             _plane = new Plane(Vector3.up, Vector3.zero);
         }
@@ -21,7 +23,7 @@ namespace Snake
             if (Input.GetMouseButton(0))
             {
                 MoveCursor();
-                snakeController.LookAt(cursor.position);
+                _snakeController.LookAt(cursor.position);
             }
         }
 
