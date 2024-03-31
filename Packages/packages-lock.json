@@ -144,6 +144,13 @@
       },
       "url": "https://packages.unity.com"
     },
+    "io.colyseus.sdk": {
+      "version": "https://github.com/VitalyNichipienko/colyseus-unity-sdk-0.14.20.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "0f3afdc580a5450409ce6e85c1374823e245bc66"
+    },
     "com.unity.modules.ai": {
       "version": "1.0.0",
       "depth": 0,
