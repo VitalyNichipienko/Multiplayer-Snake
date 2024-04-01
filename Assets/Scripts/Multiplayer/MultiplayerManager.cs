@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Colyseus;
 using Snake;
 using UnityEngine;
@@ -31,6 +32,11 @@ namespace Multiplayer
             _room?.Leave();
         }
 
+        public void SendMessage(string key, Dictionary<string, object> data)
+        {
+            _room.Send(key, data);
+        }
+        
         private async void Connection()
         {
             _room = await client.JoinOrCreate<State>(GameRoomName);
@@ -58,7 +64,8 @@ namespace Multiplayer
 
         private void CreatePlayer(Player player)
         {
-            SnakeController snake = Instantiate(snakePrefab);
+            Vector3 position = new Vector3(player.x, 0, player.z);
+            SnakeController snake = Instantiate(snakePrefab, position, Quaternion.identity);
             snake.Init(player.detailCount);
             CursorController cursorController = Instantiate(cursorPrefab);
             cursorController.Init(snake);

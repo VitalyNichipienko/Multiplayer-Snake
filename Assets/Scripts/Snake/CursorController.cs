@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Multiplayer;
 using UnityEngine;
 
 namespace Snake
@@ -9,9 +11,11 @@ namespace Snake
         private SnakeController _snakeController;
         private Camera _mainCamera;
         private Plane _plane;
+        private MultiplayerManager _multiplayerManager;
 
         public void Init(SnakeController snakeController)
         {
+            _multiplayerManager = MultiplayerManager.Instance;
             _snakeController = snakeController;
             
             _mainCamera = Camera.main;
@@ -25,6 +29,20 @@ namespace Snake
                 MoveCursor();
                 _snakeController.LookAt(cursor.position);
             }
+
+            SendMove();
+        }
+
+        private void SendMove()
+        {
+            _snakeController.GetMoveInfo(out Vector3 position);
+
+            Dictionary<string, object> data = new Dictionary<string, object>()
+            {
+                { "x", position.x }, { "z", position.z }
+            };
+
+            _multiplayerManager.SendMessage("move", data);
         }
 
         private void MoveCursor()

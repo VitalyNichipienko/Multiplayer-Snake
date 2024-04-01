@@ -12,6 +12,7 @@ namespace Snake
         private Transform _head;
         private List<Transform> _details = new List<Transform>();
         private List<Vector3> _positionHistory = new List<Vector3>();
+        private List<Quaternion> _rotationHistory = new List<Quaternion>();
 
         public void Init(Transform head, float speed, int detailCount)
         {
@@ -20,7 +21,9 @@ namespace Snake
 
             _details.Add(transform);
             _positionHistory.Add(head.position);
+            _rotationHistory.Add(head.rotation);
             _positionHistory.Add(transform.position);
+            _rotationHistory.Add(transform.rotation);
 
             SetDetailCount(detailCount);
         }
@@ -59,9 +62,11 @@ namespace Snake
         private void AddDetail()
         {
             Vector3 position = _details[_details.Count - 1].position;
-            Transform detail = Instantiate(detailPrefab, position, Quaternion.identity).transform;
+            Quaternion rotation = _details[_details.Count - 1].rotation;
+            Transform detail = Instantiate(detailPrefab, position, rotation).transform;
             _details.Insert(0, detail);
             _positionHistory.Add(position);
+            _rotationHistory.Add(rotation);
         }
 
         private void RemoveDetail()
@@ -76,6 +81,7 @@ namespace Snake
             _details.Remove(detail);
             Destroy(detail.gameObject);
             _positionHistory.RemoveAt(_positionHistory.Count - 1);
+            _rotationHistory.RemoveAt(_rotationHistory.Count - 1);
         }
 
         private void Update()
@@ -88,17 +94,19 @@ namespace Snake
 
                 _positionHistory.Insert(0, _positionHistory[0] + direction * detailDistance);
                 _positionHistory.RemoveAt(_positionHistory.Count - 1);
+                
+                _rotationHistory.Insert(0, _head.rotation);
+                _rotationHistory.RemoveAt(_rotationHistory.Count - 1);
 
                 distance -= detailDistance;
             }
 
             for (int i = 0; i < _details.Count; i++)
             {
-                _details[i].position =
-                    Vector3.Lerp(_positionHistory[i + 1], _positionHistory[i], distance / detailDistance);
-
-                // Vector3 direction = (_positionHistory[i] - _positionHistory[i + 1]).normalized;
-                // _details[i].position += direction * Time.deltaTime * _moveSpeed;
+                float percent = distance / detailDistance;
+                
+                _details[i].position = Vector3.Lerp(_positionHistory[i + 1], _positionHistory[i], percent);
+                _details[i].rotation = Quaternion.Lerp(_rotationHistory[i + 1], _rotationHistory[i], percent);
             }
         }
     }

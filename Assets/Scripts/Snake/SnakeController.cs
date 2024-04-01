@@ -46,5 +46,10 @@ namespace Snake
         {
             _targetDirection = cursorPosition - head.position;
         }
+
+        public void GetMoveInfo(out Vector3 position)
+        {
+            position = transform.position;
+        }
     }
 }
