@@ -1,11 +1,14 @@
 using System.Collections.Generic;
+using Logic;
 using Multiplayer;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Snake
 {
     public class CursorController : MonoBehaviour
     {
+        [SerializeField] private float cameraOffsetY;
         [SerializeField] private Transform cursor;
 
         private SnakeController _snakeController;
@@ -20,6 +23,8 @@ namespace Snake
             
             _mainCamera = Camera.main;
             _plane = new Plane(Vector3.up, Vector3.zero);
+
+            snakeController.AddComponent<CameraManager>().Init(cameraOffsetY);
         }
 
         private void Update()
@@ -27,7 +32,7 @@ namespace Snake
             if (Input.GetMouseButton(0))
             {
                 MoveCursor();
-                _snakeController.LookAt(cursor.position);
+                _snakeController.LerpRotation(cursor.position);
             }
 
             SendMove();

@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4b03aaf6ebc63d46a2cc2902ea22e65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraOffsetY: 10
   cursor: {fileID: 1966383077855879526}
 --- !u!1 &4432494756906343747
 GameObject:

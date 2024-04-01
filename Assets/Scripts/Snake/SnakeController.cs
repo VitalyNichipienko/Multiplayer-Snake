@@ -18,6 +18,11 @@ namespace Snake
             _tail.Init(head, moveSpeed, detailCount);
         }
 
+        public void SetDetailCount(int detailCount)
+        {
+            _tail.SetDetailCount(detailCount);
+        }
+
         public void Destroy()
         {
             _tail.Destroy();
@@ -42,7 +47,12 @@ namespace Snake
             transform.position += head.forward * moveSpeed * Time.deltaTime;
         }
 
-        public void LookAt(Vector3 cursorPosition)
+        public void SetRotation(Vector3 pointToLook)
+        {
+            head.LookAt(pointToLook);
+        }
+        
+        public void LerpRotation(Vector3 cursorPosition)
         {
             _targetDirection = cursorPosition - head.position;
         }

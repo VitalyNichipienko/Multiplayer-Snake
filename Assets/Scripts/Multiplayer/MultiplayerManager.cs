@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Colyseus;
 using Snake;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Multiplayer
@@ -65,20 +66,39 @@ namespace Multiplayer
         private void CreatePlayer(Player player)
         {
             Vector3 position = new Vector3(player.x, 0, player.z);
+            
             SnakeController snake = Instantiate(snakePrefab, position, Quaternion.identity);
             snake.Init(player.detailCount);
+            
             CursorController cursorController = Instantiate(cursorPrefab);
             cursorController.Init(snake);
         }
 
+        private Dictionary<string, EnemyController> _enemies = new Dictionary<string, EnemyController>();
         private void CreateEnemy(string key, Player player)
-        {
-            throw new System.NotImplementedException();
+        {            
+            Vector3 position = new Vector3(player.x, 0, player.z);
+            
+            SnakeController snake = Instantiate(snakePrefab, position, Quaternion.identity);
+            snake.Init(player.detailCount);
+
+            EnemyController enemyController = snake.AddComponent<EnemyController>();
+            enemyController.Init(player, snake);
+            
+            _enemies.Add(key, enemyController);
         }
 
         private void RemoveEnemy(string key, Player value)
         {
-            throw new System.NotImplementedException();
+            if (_enemies.ContainsKey(key) == false)
+            {
+                Debug.LogWarning("The specified enemy does not exist");
+                return;
+            }
+            
+            EnemyController enemyController = _enemies[key];
+            _enemies.Remove(key);
+            enemyController.Destroy();
         }
     }
 }
