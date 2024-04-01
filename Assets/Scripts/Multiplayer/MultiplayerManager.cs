@@ -1,0 +1,77 @@
+using Colyseus;
+using Snake;
+using UnityEngine;
+
+namespace Multiplayer
+{
+    public class MultiplayerManager : ColyseusManager<MultiplayerManager>
+    {
+        [SerializeField] private CursorController cursorPrefab;
+        [SerializeField] private SnakeController snakePrefab;
+        
+        private const string GameRoomName = "state_handler";
+        private ColyseusRoom<State> _room;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            DontDestroyOnLoad(gameObject);
+            InitializeClient();
+            Connection();
+        }
+
+        protected override void OnApplicationQuit()
+        {
+            base.OnApplicationQuit();
+            LeaveRoom();
+        }
+
+        public void LeaveRoom()
+        {
+            _room?.Leave();
+        }
+
+        private async void Connection()
+        {
+            _room = await client.JoinOrCreate<State>(GameRoomName);
+            _room.OnStateChange += OnChange;
+        }
+
+        private void OnChange(State state, bool isFirstState)
+        {
+            if (isFirstState == false)
+                return;
+            
+            _room.OnStateChange -= OnChange;
+            
+            state.players.ForEach((string key, Player player) =>
+            {
+                if (key == _room.SessionId)
+                    CreatePlayer(player);
+                else
+                    CreateEnemy(key, player);
+            });
+
+            _room.State.players.OnAdd += CreateEnemy;
+            _room.State.players.OnRemove += RemoveEnemy;
+        }
+
+        private void CreatePlayer(Player player)
+        {
+            SnakeController snake = Instantiate(snakePrefab);
+            snake.Init(player.detailCount);
+            CursorController cursorController = Instantiate(cursorPrefab);
+            cursorController.Init(snake);
+        }
+
+        private void CreateEnemy(string key, Player player)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        private void RemoveEnemy(string key, Player value)
+        {
+            throw new System.NotImplementedException();
+        }
+    }
+}
