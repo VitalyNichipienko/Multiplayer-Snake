@@ -7,14 +7,15 @@ namespace Snake
         [SerializeField] private Transform head;
         [SerializeField] private Tail tailPrefab;
         [SerializeField] private float moveSpeed;
-        [SerializeField] private float rotateSpeed;
 
         private Vector3 _targetDirection = Vector3.zero;
         private Tail _tail;
 
+        public float MoveSpeed => moveSpeed;
+        
         public void Init(int detailCount)
         {
-            _tail = Instantiate(tailPrefab, transform.position, Quaternion.identity);
+            _tail = Instantiate(tailPrefab, transform.position, Quaternion.identity, transform);
             _tail.Init(head, moveSpeed, detailCount);
         }
 
@@ -31,15 +32,7 @@ namespace Snake
         
         private void Update()
         {
-            Rotate();
             Move();
-        }
-
-        private void Rotate()
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(_targetDirection);
-            float maxAngle = rotateSpeed * Time.deltaTime;
-            head.rotation = Quaternion.RotateTowards(head.rotation, targetRotation, maxAngle);
         }
 
         private void Move()
@@ -50,16 +43,6 @@ namespace Snake
         public void SetRotation(Vector3 pointToLook)
         {
             head.LookAt(pointToLook);
-        }
-        
-        public void LerpRotation(Vector3 cursorPosition)
-        {
-            _targetDirection = cursorPosition - head.position;
-        }
-
-        public void GetMoveInfo(out Vector3 position)
-        {
-            position = transform.position;
         }
     }
 }

@@ -63,7 +63,7 @@ namespace Snake
         {
             Vector3 position = _details[_details.Count - 1].position;
             Quaternion rotation = _details[_details.Count - 1].rotation;
-            Transform detail = Instantiate(detailPrefab, position, rotation).transform;
+            Transform detail = Instantiate(detailPrefab, position, rotation, transform.parent).transform;
             _details.Insert(0, detail);
             _positionHistory.Add(position);
             _rotationHistory.Add(rotation);

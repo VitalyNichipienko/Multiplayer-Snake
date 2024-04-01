@@ -8,6 +8,7 @@ namespace Multiplayer
 {
     public class MultiplayerManager : ColyseusManager<MultiplayerManager>
     {
+        [SerializeField] private PlayerAim playerAimPrefab;
         [SerializeField] private CursorController cursorPrefab;
         [SerializeField] private SnakeController snakePrefab;
         
@@ -66,12 +67,16 @@ namespace Multiplayer
         private void CreatePlayer(Player player)
         {
             Vector3 position = new Vector3(player.x, 0, player.z);
+            Quaternion quaternion = Quaternion.identity;
             
-            SnakeController snake = Instantiate(snakePrefab, position, Quaternion.identity);
+            SnakeController snake = Instantiate(snakePrefab, position, quaternion);
             snake.Init(player.detailCount);
+
+            PlayerAim playerAim = Instantiate(playerAimPrefab, position, quaternion);
+            playerAim.Init(snake.MoveSpeed);
             
             CursorController cursorController = Instantiate(cursorPrefab);
-            cursorController.Init(snake);
+            cursorController.Init(player, playerAim, snake);
         }
 
         private Dictionary<string, EnemyController> _enemies = new Dictionary<string, EnemyController>();
