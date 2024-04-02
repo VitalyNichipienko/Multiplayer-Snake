@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using StaticData;
 using UnityEngine;
 
 namespace Snake
@@ -8,16 +9,16 @@ namespace Snake
         [SerializeField] private GameObject detailPrefab;
         [SerializeField] private float detailDistance;
 
-        private float _moveSpeed;
         private Transform _head;
         private List<Transform> _details = new List<Transform>();
         private List<Vector3> _positionHistory = new List<Vector3>();
         private List<Quaternion> _rotationHistory = new List<Quaternion>();
-
-        public void Init(Transform head, float speed, int detailCount)
+        private SkinData _skinData;
+        
+        public void Init(Transform head, int detailCount, SkinData skinData)
         {
             _head = head;
-            _moveSpeed = speed;
+            _skinData = skinData;
 
             _details.Add(transform);
             _positionHistory.Add(head.position);
@@ -64,6 +65,9 @@ namespace Snake
             Vector3 position = _details[_details.Count - 1].position;
             Quaternion rotation = _details[_details.Count - 1].rotation;
             Transform detail = Instantiate(detailPrefab, position, rotation, transform.parent).transform;
+            
+            detail.GetChild(0).GetComponent<MeshRenderer>().material.color = _skinData.TailColor;
+            
             _details.Insert(0, detail);
             _positionHistory.Add(position);
             _rotationHistory.Add(rotation);

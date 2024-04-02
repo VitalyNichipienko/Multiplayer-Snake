@@ -51,3 +51,4 @@ MonoBehaviour:
     type: 3}
   snakePrefab: {fileID: 6219654069163145544, guid: 664158f5caf88a140b02839c673c5092,
     type: 3}
+  skinsConfig: {fileID: 11400000, guid: 63fe6a2886a1cbb48b7c985573f575dd, type: 2}

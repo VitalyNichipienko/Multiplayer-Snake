@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 232cd80c87934f86bc71fa5dc2e70618, type: 3}
+  m_Name: SkinsConfig
+  m_EditorClassIdentifier: 
+  skinData:
+  - headColor: {r: 1, g: 0.0990566, b: 0.0990566, a: 1}
+    detailColor: {r: 1, g: 0.3066038, b: 0.3066038, a: 1}
+    tailColor: {r: 1, g: 0.6367924, b: 0.6367924, a: 1}
+  - headColor: {r: 1, g: 0, b: 0.6291132, a: 1}
+    detailColor: {r: 1, g: 0.2971698, b: 0.73816127, a: 1}
+    tailColor: {r: 1, g: 0.5235849, b: 0.82251203, a: 1}
+  - headColor: {r: 1, g: 0.44343895, b: 0, a: 1}
+    detailColor: {r: 1, g: 0.55107576, b: 0.19339621, a: 1}
+    tailColor: {r: 1, g: 0.73484594, b: 0.5235849, a: 1}
+  - headColor: {r: 0, g: 0.07590604, b: 1, a: 1}
+    detailColor: {r: 0.37486652, g: 0.4200393, b: 0.9811321, a: 1}
+    tailColor: {r: 0.6084906, g: 0.63860667, b: 1, a: 1}
+  - headColor: {r: 0, g: 1, b: 0.99999976, a: 1}
+    detailColor: {r: 0.4575472, g: 1, b: 1, a: 1}
+    tailColor: {r: 0.8160377, g: 1, b: 1, a: 1}
+  - headColor: {r: 0.19607843, g: 1, b: 0, a: 1}
+    detailColor: {r: 0.44256374, g: 1, b: 0.3066038, a: 1}
+    tailColor: {r: 0.5411579, g: 1, b: 0.4292453, a: 1}
+  - headColor: {r: 1, g: 1, b: 0, a: 1}
+    detailColor: {r: 1, g: 1, b: 0.2688679, a: 1}
+    tailColor: {r: 1, g: 1, b: 0.48584908, a: 1}
+  - headColor: {r: 0.4940319, g: 0, b: 1, a: 1}
+    detailColor: {r: 0.63490576, g: 0.2783019, b: 1, a: 1}
+    tailColor: {r: 0.7351277, g: 0.4764151, b: 1, a: 1}

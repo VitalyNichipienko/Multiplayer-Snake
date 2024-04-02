@@ -1,3 +1,4 @@
+using StaticData;
 using UnityEngine;
 
 namespace Snake
@@ -8,15 +9,17 @@ namespace Snake
         [SerializeField] private Tail tailPrefab;
         [SerializeField] private float moveSpeed;
 
-        private Vector3 _targetDirection = Vector3.zero;
         private Tail _tail;
-
+        
         public float MoveSpeed => moveSpeed;
         
-        public void Init(int detailCount)
+        public void Init(int detailCount, SkinData skinData)
         {
             _tail = Instantiate(tailPrefab, transform.position, Quaternion.identity, transform);
-            _tail.Init(head, moveSpeed, detailCount);
+            _tail.Init(head, detailCount, skinData);
+            
+            head.GetChild(0).GetComponent<Renderer>().material.color = skinData.HeadColor;
+            _tail.transform.GetChild(0).GetComponent<Renderer>().material.color = skinData.TailColor;
         }
 
         public void SetDetailCount(int detailCount)

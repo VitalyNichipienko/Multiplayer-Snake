@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Colyseus;
 using Snake;
+using StaticData;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -11,9 +12,12 @@ namespace Multiplayer
         [SerializeField] private PlayerAim playerAimPrefab;
         [SerializeField] private CursorController cursorPrefab;
         [SerializeField] private SnakeController snakePrefab;
+        [SerializeField] private SkinsConfig skinsConfig;
         
         private const string GameRoomName = "state_handler";
         private ColyseusRoom<State> _room;
+        private Dictionary<string, EnemyController> _enemies = new Dictionary<string, EnemyController>();
+
 
         protected override void Awake()
         {
@@ -38,7 +42,7 @@ namespace Multiplayer
         {
             _room.Send(key, data);
         }
-        
+
         private async void Connection()
         {
             _room = await client.JoinOrCreate<State>(GameRoomName);
@@ -70,7 +74,7 @@ namespace Multiplayer
             Quaternion quaternion = Quaternion.identity;
             
             SnakeController snake = Instantiate(snakePrefab, position, quaternion);
-            snake.Init(player.detailCount);
+            snake.Init(player.detailCount, skinsConfig.SkinData[player.skinIndex]);
 
             PlayerAim playerAim = Instantiate(playerAimPrefab, position, quaternion);
             playerAim.Init(snake.MoveSpeed);
@@ -79,13 +83,12 @@ namespace Multiplayer
             cursorController.Init(player, playerAim, snake);
         }
 
-        private Dictionary<string, EnemyController> _enemies = new Dictionary<string, EnemyController>();
         private void CreateEnemy(string key, Player player)
         {            
             Vector3 position = new Vector3(player.x, 0, player.z);
             
             SnakeController snake = Instantiate(snakePrefab, position, Quaternion.identity);
-            snake.Init(player.detailCount);
+            snake.Init(player.detailCount, skinsConfig.SkinData[player.skinIndex]);
 
             EnemyController enemyController = snake.AddComponent<EnemyController>();
             enemyController.Init(player, snake);
