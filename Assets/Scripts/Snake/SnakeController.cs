@@ -5,7 +5,7 @@ namespace Snake
 {
     public class SnakeController : MonoBehaviour
     {
-        [SerializeField] private Transform head;
+        [SerializeField] private Head head;
         [SerializeField] private Tail tailPrefab;
         [SerializeField] private float moveSpeed;
 
@@ -16,10 +16,9 @@ namespace Snake
         public void Init(int detailCount, SkinData skinData)
         {
             _tail = Instantiate(tailPrefab, transform.position, Quaternion.identity, transform);
-            _tail.Init(head, detailCount, skinData);
+            _tail.Init(head.transform, detailCount, skinData);
             
-            head.GetChild(0).GetComponent<Renderer>().material.color = skinData.HeadColor;
-            _tail.transform.GetChild(0).GetComponent<Renderer>().material.color = skinData.TailColor;
+            head.Renderer.material.color = skinData.HeadColor;
         }
 
         public void SetDetailCount(int detailCount)
@@ -40,12 +39,12 @@ namespace Snake
 
         private void Move()
         {
-            transform.position += head.forward * moveSpeed * Time.deltaTime;
+            transform.position += head.transform.forward * moveSpeed * Time.deltaTime;
         }
 
         public void SetRotation(Vector3 pointToLook)
         {
-            head.LookAt(pointToLook);
+            head.transform.LookAt(pointToLook);
         }
     }
 }

@@ -45,9 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b030bed9c3c902142bd55d0e754e407b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detailPrefab: {fileID: 7824309581795132081, guid: 3bce3bc37f51f544baa7a21a8b56284f,
+  detailPrefab: {fileID: 7383532458814466330, guid: 3bce3bc37f51f544baa7a21a8b56284f,
     type: 3}
   detailDistance: 1
+  renderer: {fileID: 539689602403111710}
 --- !u!1 &7741055269910540711
 GameObject:
   m_ObjectHideFlags: 0

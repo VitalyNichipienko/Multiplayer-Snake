@@ -114,6 +114,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3590663860520842442}
+  - component: {fileID: 1435480274533973274}
   m_Layer: 0
   m_Name: Head
   m_TagString: Untagged
@@ -137,6 +138,19 @@ Transform:
   - {fileID: 7079945794050832022}
   m_Father: {fileID: 2998926568893031841}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1435480274533973274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6995204137766101047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcfe47d91c11eb2478ea52f7b93eb27d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderer: {fileID: 6478101982659151298}
 --- !u!1 &8290409607889193375
 GameObject:
   m_ObjectHideFlags: 0
@@ -182,8 +196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1193bf4ea0954e44782832c2ecc9a0ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  head: {fileID: 3590663860520842442}
+  head: {fileID: 1435480274533973274}
   tailPrefab: {fileID: 6543831119589366387, guid: a178cf99042d2c84c8ac3800f0fdbdeb,
     type: 3}
   moveSpeed: 2
-  rotateSpeed: 90
