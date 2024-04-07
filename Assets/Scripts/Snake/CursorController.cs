@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using CameraLogic;
 using Colyseus.Schema;
-using Logic;
+using Infrastructure;
 using Multiplayer;
+using Services.Input;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -18,6 +20,7 @@ namespace Snake
         private MultiplayerManager _multiplayerManager;
         private Player _player;
         private PlayerAim _playerAim;
+        private IInputService _inputService;
 
         public void Init(Player player, PlayerAim aim, SnakeController snakeController)
         {
@@ -29,6 +32,8 @@ namespace Snake
             _mainCamera = Camera.main;
             _plane = new Plane(Vector3.up, Vector3.zero);
 
+            _inputService = Game.InputService;
+
             snakeController.AddComponent<CameraManager>().Init(cameraOffsetY);
 
             _player.OnChange += OnChange;
@@ -36,7 +41,7 @@ namespace Snake
 
         private void Update()
         {
-            if (Input.GetMouseButton(0))
+            if (_inputService.IsCursorButtonDown)
             {
                 MoveCursor();
                 _playerAim.SetTargetDirection(cursor.position);
@@ -59,7 +64,7 @@ namespace Snake
 
         private void MoveCursor()
         {
-            Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
+            Ray ray = _mainCamera.ScreenPointToRay(_inputService.Axis);
             _plane.Raycast(ray, out float distance);
             Vector3 point = ray.GetPoint(distance);
 

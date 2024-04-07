@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Logic
+namespace CameraLogic
 {
     public class CameraManager : MonoBehaviour
     {
