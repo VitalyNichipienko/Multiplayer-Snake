@@ -1,4 +1,5 @@
 ﻿using Services.Input;
+using UI;
 using UnityEngine;
 
 namespace Infrastructure
@@ -6,19 +7,11 @@ namespace Infrastructure
     public class Game
     {
         public static IInputService InputService;
-
-        public Game()
+        public readonly GameStateMachine StateMachine;
+        
+        public Game(ICoroutineRunner coroutineRunner, LoadingScreen loadingScreen)
         {
-            RegisterInputService();
-        }
-
-        private static void RegisterInputService()
-        {
-#if UNITY_EDITOR || PLATFORM_STANDALONE
-            InputService = new StandaloneInputService();
-#elif UNITY_ANDROID
-            InputService = new MobileInputService();
-#endif
+            StateMachine = new GameStateMachine(new SceneLoader(coroutineRunner), loadingScreen);
         }
     }
 }

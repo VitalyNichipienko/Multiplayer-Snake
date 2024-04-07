@@ -1,24 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
+using UI;
 
 namespace Infrastructure
 {
     public class GameStateMachine
     {
-        private readonly Dictionary<Type,IState> _states;
-        private IState _activeState;
+        private readonly Dictionary<Type, IExitableState> _states;
+        private IExitableState _activeState;
+        private SceneLoader _sceneLoader;
 
-        public GameStateMachine()
+        public GameStateMachine(SceneLoader sceneLoader, LoadingScreen loadingScreen)
         {
-            _states = new Dictionary<Type, IState>();
+            _sceneLoader = sceneLoader;
+            
+            _states = new Dictionary<Type, IExitableState>()
+            {
+                [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader),
+                [typeof(LoadLevelState)] = new LoadLevelState(this, sceneLoader, loadingScreen),
+                [typeof(GameLoopState)] = new GameLoopState(this)
+            };
         }
         
-        public void Enter<TState>() where TState : IState
+        public void Enter<TState>() where TState : class, IState
+        {
+            IState state = ChangeState<TState>();
+            state.Enter();
+        }
+
+        public void Enter<TState, TPayload>(TPayload payload) where TState : class, IPayloadedState<TPayload>
+        {
+            TState state = ChangeState<TState>();
+            state.Enter(payload);
+        }
+
+        private TState ChangeState<TState>() where TState : class, IExitableState
         {
             _activeState?.Exit();
-            IState state = _states[typeof(TState)];
+            
+            TState state = GetState<TState>();
             _activeState = state;
-            _activeState.Enter();
+            
+            return state;
         }
+
+        private TState GetState<TState>() where TState : class, IExitableState => 
+            _states[typeof(TState)] as TState;
     }
 }
