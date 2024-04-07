@@ -18,10 +18,8 @@ namespace Multiplayer
         private ColyseusRoom<State> _room;
         private Dictionary<string, EnemyController> _enemies = new Dictionary<string, EnemyController>();
 
-
-        protected override void Awake()
+        public void Init()
         {
-            base.Awake();
             DontDestroyOnLoad(gameObject);
             InitializeClient();
             Connection();

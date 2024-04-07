@@ -1,4 +1,5 @@
-﻿using UI;
+﻿using Multiplayer;
+using UI;
 using UnityEngine;
 
 namespace Infrastructure
@@ -9,18 +10,21 @@ namespace Infrastructure
         private readonly GameStateMachine _gameStateMachine;
         private readonly SceneLoader _sceneLoader;
         private readonly LoadingScreen _loadingScreen;
+        private readonly MultiplayerManager _multiplayerManager;
 
-        public LoadLevelState(GameStateMachine gameStateMachine, SceneLoader sceneLoader, LoadingScreen loadingScreen)
+        public LoadLevelState(GameStateMachine gameStateMachine, SceneLoader sceneLoader, LoadingScreen loadingScreen, MultiplayerManager multiplayerManager)
         {
             _gameStateMachine = gameStateMachine;
             _sceneLoader = sceneLoader;
             _loadingScreen = loadingScreen;
+            _multiplayerManager = multiplayerManager;
         }
 
         public void Enter(string sceneName)
         {
             _loadingScreen.Show();
             _sceneLoader.Load(sceneName, OnLoaded);
+            _multiplayerManager.Init();
         }
 
         public void Exit()

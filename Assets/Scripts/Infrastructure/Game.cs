@@ -1,6 +1,6 @@
-﻿using Services.Input;
+﻿using Multiplayer;
+using Services.Input;
 using UI;
-using UnityEngine;
 
 namespace Infrastructure
 {
@@ -9,9 +9,9 @@ namespace Infrastructure
         public static IInputService InputService;
         public readonly GameStateMachine StateMachine;
         
-        public Game(ICoroutineRunner coroutineRunner, LoadingScreen loadingScreen)
+        public Game(ICoroutineRunner coroutineRunner, LoadingScreen loadingScreen, MultiplayerManager multiplayerManager)
         {
-            StateMachine = new GameStateMachine(new SceneLoader(coroutineRunner), loadingScreen);
+            StateMachine = new GameStateMachine(new SceneLoader(coroutineRunner), loadingScreen, multiplayerManager);
         }
     }
 }

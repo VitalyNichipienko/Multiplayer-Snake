@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Multiplayer;
 using UI;
 
 namespace Infrastructure
@@ -10,14 +11,14 @@ namespace Infrastructure
         private IExitableState _activeState;
         private SceneLoader _sceneLoader;
 
-        public GameStateMachine(SceneLoader sceneLoader, LoadingScreen loadingScreen)
+        public GameStateMachine(SceneLoader sceneLoader, LoadingScreen loadingScreen, MultiplayerManager multiplayerManager)
         {
             _sceneLoader = sceneLoader;
             
             _states = new Dictionary<Type, IExitableState>()
             {
                 [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader),
-                [typeof(LoadLevelState)] = new LoadLevelState(this, sceneLoader, loadingScreen),
+                [typeof(LoadLevelState)] = new LoadLevelState(this, sceneLoader, loadingScreen, multiplayerManager),
                 [typeof(GameLoopState)] = new GameLoopState(this)
             };
         }

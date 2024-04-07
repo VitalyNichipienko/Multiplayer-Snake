@@ -6,7 +6,6 @@ namespace Services.Input
     {
         public override Vector2 Axis => UnityEngine.Input.mousePosition;
 
-        public override bool IsCursorButtonDown =>
-            SimpleInput.GetKey(KeyCode.Mouse0); // UnityEngine.Input.GetMouseButton(0);
+        public override bool IsCursorButtonDown => UnityEngine.Input.GetMouseButton(0);
     }
 }
