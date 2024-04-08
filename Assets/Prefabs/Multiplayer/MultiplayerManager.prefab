@@ -52,3 +52,5 @@ MonoBehaviour:
   snakePrefab: {fileID: 6219654069163145544, guid: 664158f5caf88a140b02839c673c5092,
     type: 3}
   skinsConfig: {fileID: 11400000, guid: 63fe6a2886a1cbb48b7c985573f575dd, type: 2}
+  applePrefab: {fileID: 4890161447473206277, guid: b03a0bc711235e547b82bc050ef5e29a,
+    type: 3}
