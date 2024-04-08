@@ -5,7 +5,7 @@ namespace Snake
 {
     public class SnakeController : MonoBehaviour
     {
-        [SerializeField] private Head head;
+        [SerializeField] private ColorChangingDetail head;
         [SerializeField] private Tail tailPrefab;
         [SerializeField] private float moveSpeed;
 
@@ -18,7 +18,7 @@ namespace Snake
             _tail = Instantiate(tailPrefab, transform.position, Quaternion.identity, transform);
             _tail.Init(head.transform, detailCount, skinData);
             
-            head.Renderer.material.color = skinData.HeadColor;
+            head.Init(skinData.HeadColor);
         }
 
         public void SetDetailCount(int detailCount)

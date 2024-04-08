@@ -6,9 +6,9 @@ namespace Snake
 {
     public class Tail : MonoBehaviour
     {
-        [SerializeField] private Detail detailPrefab;
+        [SerializeField] private ColorChangingDetail detailPrefab;
+        [SerializeField] private ColorChangingDetail tailColorDetail;
         [SerializeField] private float detailDistance;
-        [SerializeField] private MeshRenderer renderer;
 
         private Transform _head;
         private List<Transform> _details = new List<Transform>();
@@ -27,9 +27,9 @@ namespace Snake
             _positionHistory.Add(transform.position);
             _rotationHistory.Add(transform.rotation);
 
-            SetDetailCount(detailCount);
+            tailColorDetail.Init(skinData.TailColor);
             
-            renderer.material.color = skinData.TailColor;
+            SetDetailCount(detailCount);
         }
 
         public void Destroy()
@@ -67,11 +67,11 @@ namespace Snake
         {
             Vector3 position = _details[_details.Count - 1].position;
             Quaternion rotation = _details[_details.Count - 1].rotation;
-            Detail detail = Instantiate(detailPrefab, position, rotation, transform.parent);
+            ColorChangingDetail colorChangingDetail = Instantiate(detailPrefab, position, rotation, transform.parent);
             
-            detail.Renderer.material.color = _skinData.DetailColor;
+            colorChangingDetail.Init(_skinData.DetailColor);
             
-            _details.Insert(0, detail.transform);
+            _details.Insert(0, colorChangingDetail.transform);
             _positionHistory.Add(position);
             _rotationHistory.Add(rotation);
         }
