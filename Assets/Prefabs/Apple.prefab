@@ -65,7 +65,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.5
+  m_Radius: 0.45
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!1001 &6880501169541471311
 PrefabInstance:
@@ -75,6 +75,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3494258852082494213}
     m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 4b29efe884c10ab49a64a847c2fcf54e,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.65
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 4b29efe884c10ab49a64a847c2fcf54e,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.65
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 4b29efe884c10ab49a64a847c2fcf54e,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.65
+      objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4b29efe884c10ab49a64a847c2fcf54e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -124,6 +139,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 4b29efe884c10ab49a64a847c2fcf54e,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 4b29efe884c10ab49a64a847c2fcf54e,
         type: 3}
