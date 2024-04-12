@@ -15,10 +15,23 @@ namespace Snake
         
         public float MoveSpeed => moveSpeed;
         
-        public void Init(int detailCount, SkinData skinData)
+        public void Init(int detailCount, SkinData skinData, bool isPlayer = false)
         {
+            int playerLayer = LayerMask.NameToLayer(Constants.PlayerLayer);
+            
+            if (isPlayer)
+            {
+                gameObject.layer = playerLayer;
+                var childrenObjects = GetComponentsInChildren<Transform>();
+                
+                for (int i = 0; i < childrenObjects.Length; i++)
+                {
+                    childrenObjects[i].gameObject.layer = playerLayer;
+                }
+            }
+            
             _tail = Instantiate(tailPrefab, transform.position, Quaternion.identity, transform);
-            _tail.Init(head.transform, detailCount, skinData);
+            _tail.Init(head.transform, detailCount, skinData, playerLayer, isPlayer);
             
             head.Init(skinData.HeadColor);
         }

@@ -1,10 +1,8 @@
 using System.Collections.Generic;
-using CameraLogic;
 using Colyseus.Schema;
 using Infrastructure;
 using Multiplayer;
 using Services.Input;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Snake
@@ -30,11 +28,12 @@ namespace Snake
             _multiplayerManager = MultiplayerManager.Instance;
 
             _mainCamera = Camera.main;
+            _mainCamera.transform.parent = snakeController.transform;
+            _mainCamera.transform.localPosition = Vector3.up * cameraOffsetY;
+            
             _plane = new Plane(Vector3.up, Vector3.zero);
 
             _inputService = Game.InputService;
-
-            snakeController.AddComponent<CameraManager>().Init(cameraOffsetY);
 
             _player.OnChange += OnChange;
         }
@@ -50,6 +49,15 @@ namespace Snake
             SendMove();
         }
 
+        public void Destroy()
+        {
+            _mainCamera.transform.parent = null;
+            
+            _player.OnChange -= OnChange;
+            _snakeController.Destroy();
+            Destroy(gameObject);
+        }
+        
         private void SendMove()
         {
             _playerAim.GetMoveInfo(out Vector3 position);
@@ -73,12 +81,6 @@ namespace Snake
         
         private void OnChange(List<DataChange> changes)
         {
-            if (_snakeController == null)
-            {
-                Debug.LogWarning("Snake controller was destroyed");
-                return;
-            }
-            
             Vector3 position = _snakeController.transform.position;
             
             for (int i = 0; i < changes.Count; i++)

@@ -122,7 +122,7 @@ MonoBehaviour:
   head: {fileID: 6109997560913175476}
   tailPrefab: {fileID: 6543831119589366387, guid: a178cf99042d2c84c8ac3800f0fdbdeb,
     type: 3}
-  moveSpeed: 2
+  moveSpeed: 4
 --- !u!1001 &895373401576964948
 PrefabInstance:
   m_ObjectHideFlags: 0

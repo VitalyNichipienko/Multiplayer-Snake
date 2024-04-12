@@ -5,6 +5,7 @@ namespace Snake
 {
     public class PlayerAim : MonoBehaviour
     {
+        [SerializeField] private LayerMask collisionLayer;
         [SerializeField] private float overlapRadius;
         [SerializeField] private float rotateSpeed;
 
@@ -31,7 +32,7 @@ namespace Snake
 
         private void CheckCollision()
         {
-            Collider[] colliders = Physics.OverlapSphere(_snakeHead.position, overlapRadius);
+            Collider[] colliders = Physics.OverlapSphere(_snakeHead.position, overlapRadius, collisionLayer);
 
             for (int i = 0; i < colliders.Length; i++)
             {
@@ -39,7 +40,18 @@ namespace Snake
                 {
                     apple.Collect();
                 }
+                else
+                {
+                    Defeat();
+                }
             }
+        }
+
+        private void Defeat()
+        {
+            FindObjectOfType<CursorController>()?.Destroy();
+            
+            Destroy(gameObject);
         }
 
         public void SetTargetDirection(Vector3 pointToLook)

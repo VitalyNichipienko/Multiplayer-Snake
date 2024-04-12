@@ -15,9 +15,17 @@ namespace Snake
         private List<Vector3> _positionHistory = new List<Vector3>();
         private List<Quaternion> _rotationHistory = new List<Quaternion>();
         private SkinData _skinData;
+        private int _playerLayer;
+        private bool _isPlayer;
         
-        public void Init(Transform head, int detailCount, SkinData skinData)
+        public void Init(Transform head, int detailCount, SkinData skinData, int playerLayer, bool isPlayer = false)
         {
+            _playerLayer = playerLayer;
+            _isPlayer = isPlayer;
+            
+            if (isPlayer) 
+                SetPlayerLayer(gameObject);
+            
             _head = head;
             _skinData = skinData;
 
@@ -30,6 +38,32 @@ namespace Snake
             tailColorDetail.Init(skinData.TailColor);
             
             SetDetailCount(detailCount);
+        }
+
+        private void Update()
+        {
+            float distance = (_head.position - _positionHistory[0]).magnitude;
+
+            while (distance > detailDistance)
+            {
+                Vector3 direction = (_head.position - _positionHistory[0]).normalized;
+
+                _positionHistory.Insert(0, _positionHistory[0] + direction * detailDistance);
+                _positionHistory.RemoveAt(_positionHistory.Count - 1);
+                
+                _rotationHistory.Insert(0, _head.rotation);
+                _rotationHistory.RemoveAt(_rotationHistory.Count - 1);
+
+                distance -= detailDistance;
+            }
+
+            for (int i = 0; i < _details.Count; i++)
+            {
+                float percent = distance / detailDistance;
+                
+                _details[i].position = Vector3.Lerp(_positionHistory[i + 1], _positionHistory[i], percent);
+                _details[i].rotation = Quaternion.Lerp(_rotationHistory[i + 1], _rotationHistory[i], percent);
+            }
         }
 
         public void Destroy()
@@ -69,6 +103,9 @@ namespace Snake
             Quaternion rotation = _details[_details.Count - 1].rotation;
             ColorChangingDetail colorChangingDetail = Instantiate(detailPrefab, position, rotation, transform.parent);
             
+            if (_isPlayer)
+                SetPlayerLayer(colorChangingDetail.gameObject);
+            
             colorChangingDetail.Init(_skinData.DetailColor);
             
             _details.Insert(0, colorChangingDetail.transform);
@@ -91,29 +128,14 @@ namespace Snake
             _rotationHistory.RemoveAt(_rotationHistory.Count - 1);
         }
 
-        private void Update()
+        private void SetPlayerLayer(GameObject obj)
         {
-            float distance = (_head.position - _positionHistory[0]).magnitude;
+            obj.layer = _playerLayer;
+            var childrenObjects = GetComponentsInChildren<Transform>();
 
-            while (distance > detailDistance)
+            for (int i = 0; i < childrenObjects.Length; i++)
             {
-                Vector3 direction = (_head.position - _positionHistory[0]).normalized;
-
-                _positionHistory.Insert(0, _positionHistory[0] + direction * detailDistance);
-                _positionHistory.RemoveAt(_positionHistory.Count - 1);
-                
-                _rotationHistory.Insert(0, _head.rotation);
-                _rotationHistory.RemoveAt(_rotationHistory.Count - 1);
-
-                distance -= detailDistance;
-            }
-
-            for (int i = 0; i < _details.Count; i++)
-            {
-                float percent = distance / detailDistance;
-                
-                _details[i].position = Vector3.Lerp(_positionHistory[i + 1], _positionHistory[i], percent);
-                _details[i].rotation = Quaternion.Lerp(_rotationHistory[i + 1], _rotationHistory[i], percent);
+                childrenObjects[i].gameObject.layer = _playerLayer;
             }
         }
     }

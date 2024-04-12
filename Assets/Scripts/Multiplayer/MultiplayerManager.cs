@@ -76,7 +76,7 @@ namespace Multiplayer
             Quaternion quaternion = Quaternion.identity;
             
             SnakeController snake = Instantiate(snakePrefab, position, quaternion);
-            snake.Init(player.detailCount, skinsConfig.SkinData[player.skinIndex]);
+            snake.Init(player.detailCount, skinsConfig.SkinData[player.skinIndex], true);
 
             PlayerAim playerAim = Instantiate(playerAimPrefab, position, quaternion);
             playerAim.Init(snake.Head, snake.MoveSpeed);
