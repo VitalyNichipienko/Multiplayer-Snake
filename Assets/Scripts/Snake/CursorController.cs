@@ -59,7 +59,7 @@ namespace Snake
                 { "x", position.x }, { "z", position.z }
             };
 
-            _multiplayerManager.SendMessage("move", data);
+            _multiplayerManager.SendMessage(ColyseusKeys.Move, data);
         }
 
         private void MoveCursor()
@@ -73,6 +73,12 @@ namespace Snake
         
         private void OnChange(List<DataChange> changes)
         {
+            if (_snakeController == null)
+            {
+                Debug.LogWarning("Snake controller was destroyed");
+                return;
+            }
+            
             Vector3 position = _snakeController.transform.position;
             
             for (int i = 0; i < changes.Count; i++)
@@ -89,7 +95,7 @@ namespace Snake
                         _snakeController.SetDetailCount((byte)changes[i].Value);
                         break;
                     default:
-                        Debug.LogWarning("Field is not processed" + changes[i].Field);
+                        Debug.LogWarning("Field is not processed " + changes[i].Field);
                         break;
                 }
             }

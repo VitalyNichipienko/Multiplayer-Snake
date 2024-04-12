@@ -79,7 +79,7 @@ namespace Multiplayer
             snake.Init(player.detailCount, skinsConfig.SkinData[player.skinIndex]);
 
             PlayerAim playerAim = Instantiate(playerAimPrefab, position, quaternion);
-            playerAim.Init(snake.MoveSpeed);
+            playerAim.Init(snake.Head, snake.MoveSpeed);
             
             CursorController cursorController = Instantiate(cursorPrefab);
             cursorController.Init(player, playerAim, snake);
@@ -122,7 +122,7 @@ namespace Multiplayer
             Vector3 position = new Vector3(vector2Float.x, 0, vector2Float.z);
 
             Apple apple = Instantiate(applePrefab, position, Quaternion.identity);
-            apple.Init(vector2Float);
+            apple.Init( vector2Float);
             
             _apples.Add(vector2Float, apple);
         }

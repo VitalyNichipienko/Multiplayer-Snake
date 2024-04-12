@@ -9,6 +9,8 @@ namespace Snake
         [SerializeField] private Tail tailPrefab;
         [SerializeField] private float moveSpeed;
 
+        public Transform Head => head.transform;
+        
         private Tail _tail;
         
         public float MoveSpeed => moveSpeed;

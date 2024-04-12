@@ -1,16 +1,20 @@
-﻿using UnityEngine;
+﻿using Multiplayer;
+using UnityEngine;
 
 namespace Snake
 {
     public class PlayerAim : MonoBehaviour
     {
+        [SerializeField] private float overlapRadius;
         [SerializeField] private float rotateSpeed;
-        
+
+        private Transform _snakeHead;
         private Vector3 _targetDirection = Vector3.zero;
         private float _speed;
 
-        public void Init(float speed)
+        public void Init(Transform snakeHead, float speed)
         {
+            _snakeHead = snakeHead;
             _speed = speed;
         }
 
@@ -18,6 +22,24 @@ namespace Snake
         {
             Move();
             Rotate();
+        }
+
+        private void FixedUpdate()
+        {
+            CheckCollision();
+        }
+
+        private void CheckCollision()
+        {
+            Collider[] colliders = Physics.OverlapSphere(_snakeHead.position, overlapRadius);
+
+            for (int i = 0; i < colliders.Length; i++)
+            {
+                if (colliders[i].TryGetComponent(out Apple apple))
+                {
+                    apple.Collect();
+                }
+            }
         }
 
         public void SetTargetDirection(Vector3 pointToLook)
