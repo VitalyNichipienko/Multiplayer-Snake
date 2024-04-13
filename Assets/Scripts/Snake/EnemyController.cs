@@ -8,11 +8,13 @@ namespace Snake
     {
         private Player _player;
         private SnakeController _snakeController;
+        private string _clientId;
         
-        public void Init(Player player, SnakeController snake)
+        public void Init(Player player, SnakeController snake, string clientId)
         {
             _player = player;
             _snakeController = snake;
+            _clientId = clientId;
             
             player.OnChange += OnChange;
         }
@@ -46,6 +48,7 @@ namespace Snake
         public void Destroy()
         {
             _player.OnChange -= OnChange;
+            _snakeController.Destroy(_clientId);
         }
     }
 }

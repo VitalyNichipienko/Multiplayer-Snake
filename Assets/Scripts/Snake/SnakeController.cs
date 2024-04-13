@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Multiplayer;
 using StaticData;
 using UnityEngine;
 
@@ -36,20 +38,26 @@ namespace Snake
             head.Init(skinData.HeadColor);
         }
 
-        public void SetDetailCount(int detailCount)
-        {
-            _tail.SetDetailCount(detailCount);
-        }
-
-        public void Destroy()
-        {
-            _tail.Destroy();
-            Destroy(gameObject);
-        }
-        
         private void Update()
         {
             Move();
+        }
+
+        public void Destroy(string clientId)
+        {
+            DetailPositions detailPositions = _tail.GetDetailPositions();
+            detailPositions.id = clientId;
+            
+            string json = JsonUtility.ToJson(detailPositions);
+            MultiplayerManager.Instance.SendMessage("gameOver", json);
+            
+            _tail.Destroy();
+            Destroy(gameObject);
+        }
+
+        public void SetDetailCount(int detailCount)
+        {
+            _tail.SetDetailCount(detailCount);
         }
 
         private void Move()

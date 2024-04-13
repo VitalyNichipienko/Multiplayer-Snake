@@ -23,6 +23,7 @@ namespace Snake
         {
             Move();
             Rotate();
+            CheckExit();
         }
 
         private void FixedUpdate()
@@ -42,7 +43,22 @@ namespace Snake
                 }
                 else
                 {
-                    Defeat();
+                    if (colliders[i].GetComponentInParent<SnakeController>())
+                    {
+                        Transform enemyTransform = colliders[i].transform;
+                        float playerAngle = Vector3.Angle(enemyTransform.position - _snakeHead.position, transform.forward);
+                        float enemyAngle = Vector3.Angle(_snakeHead.position - enemyTransform.position, enemyTransform.forward);
+
+                        float collisionAngleOffset = 5.0f;
+                        if (playerAngle < enemyAngle + collisionAngleOffset)
+                        {
+                            Defeat();
+                        }
+                    }
+                    else
+                    {
+                        Defeat();
+                    }
                 }
             }
         }
@@ -50,7 +66,6 @@ namespace Snake
         private void Defeat()
         {
             FindObjectOfType<CursorController>()?.Destroy();
-            
             Destroy(gameObject);
         }
 
@@ -73,6 +88,12 @@ namespace Snake
         {
             Quaternion targetRotation = Quaternion.LookRotation(_targetDirection);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+        }
+
+        private void CheckExit()
+        {
+            if (Mathf.Abs(_snakeHead.position.x) > 128 || Mathf.Abs(_snakeHead.position.z) > 128)
+                Defeat();
         }
     }
 }

@@ -13,10 +13,13 @@ namespace Multiplayer
         [SerializeField] private CursorController cursorPrefab;
         [SerializeField] private SnakeController snakePrefab;
         [SerializeField] private SkinsConfig skinsConfig;
-        
+        [SerializeField] private Apple applePrefab;
+
+        private Dictionary<Vector2Float, Apple> _apples = new Dictionary<Vector2Float, Apple>();
         private const string GameRoomName = "state_handler";
         private ColyseusRoom<State> _room;
         private Dictionary<string, EnemyController> _enemies = new Dictionary<string, EnemyController>();
+
 
         public void Init()
         {
@@ -41,6 +44,11 @@ namespace Multiplayer
             _room.Send(key, data);
         }
 
+        public void SendMessage(string key, string data)
+        {
+            _room.Send(key, data);
+        }
+        
         private async void Connection()
         {
             _room = await client.JoinOrCreate<State>(GameRoomName);
@@ -82,7 +90,7 @@ namespace Multiplayer
             playerAim.Init(snake.Head, snake.MoveSpeed);
             
             CursorController cursorController = Instantiate(cursorPrefab);
-            cursorController.Init(player, playerAim, snake);
+            cursorController.Init(player, playerAim, snake, _room.SessionId);
         }
 
         private void CreateEnemy(string key, Player player)
@@ -93,8 +101,7 @@ namespace Multiplayer
             snake.Init(player.detailCount, skinsConfig.SkinData[player.skinIndex]);
 
             EnemyController enemyController = snake.AddComponent<EnemyController>();
-            enemyController.Init(player, snake);
-            
+            enemyController.Init(player, snake, key);
             _enemies.Add(key, enemyController);
         }
 
@@ -111,12 +118,7 @@ namespace Multiplayer
             enemyController.Destroy();
         }
 
-        
-        
-        [SerializeField] private Apple applePrefab;
 
-        private Dictionary<Vector2Float, Apple> _apples = new Dictionary<Vector2Float, Apple>();
-        
         private void CreateApple(Vector2Float vector2Float)
         {
             Vector3 position = new Vector3(vector2Float.x, 0, vector2Float.z);

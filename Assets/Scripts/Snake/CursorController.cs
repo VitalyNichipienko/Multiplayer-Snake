@@ -17,14 +17,16 @@ namespace Snake
         private Plane _plane;
         private MultiplayerManager _multiplayerManager;
         private Player _player;
+        private string _clientId;
         private PlayerAim _playerAim;
         private IInputService _inputService;
 
-        public void Init(Player player, PlayerAim aim, SnakeController snakeController)
+        public void Init(Player player, PlayerAim aim, SnakeController snakeController, string clientId)
         {
             _player = player;
             _playerAim = aim;
             _snakeController = snakeController;
+            _clientId = clientId;
             _multiplayerManager = MultiplayerManager.Instance;
 
             _mainCamera = Camera.main;
@@ -54,7 +56,7 @@ namespace Snake
             _mainCamera.transform.parent = null;
             
             _player.OnChange -= OnChange;
-            _snakeController.Destroy();
+            _snakeController.Destroy(_clientId);
             Destroy(gameObject);
         }
         

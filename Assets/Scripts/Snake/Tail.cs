@@ -66,6 +66,27 @@ namespace Snake
             }
         }
 
+        public DetailPositions GetDetailPositions()
+        {
+            DetailPosition[] positions = new DetailPosition[_details.Count];
+
+            for (int i = 0; i < _details.Count; i++)
+            {
+                positions[i] = new DetailPosition
+                {
+                    x = _details[i].position.x,
+                    z = _details[i].position.z
+                };
+            }
+
+            DetailPositions detailPositions = new DetailPositions
+            {
+                dPos = positions
+            };
+
+            return detailPositions;
+        }
+
         public void Destroy()
         {
             for (int i = 0; i < _details.Count; i++)
